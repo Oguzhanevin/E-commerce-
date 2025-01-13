@@ -1,11 +1,13 @@
-// tailwind.config.js
 module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        navbarLigthBlue: '#23A6F0',
+      },
+    },
   },
   plugins: [],
-};
+}
