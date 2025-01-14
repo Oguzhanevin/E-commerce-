@@ -1,16 +1,17 @@
-import React from 'react';
-import Header from '../layout/Header';
-import Navbar from '../layout/Navbar';
+import BestSellers from "@/components/BestSellers";
+import Blog from "@/components/Blog";
+import Container from "@/components/Container";
+import EditorsPick from "@/components/EditorsPick";
+import Slider from "@/components/Slider";
 
-function HomePage() {
-    return (
-        <div>
-            <div className="flex flex-col">
-                <Navbar />
-                <Header />
-            </div>
-        </div>
-    );
+export default function HomePage() {
+  return (
+    <div>
+      <EditorsPick />
+      <BestSellers />
+      <Slider />
+      <Container />
+      <Blog />
+    </div>
+  );
 }
-
-export default HomePage;

@@ -1,9 +1,36 @@
-import React from 'react';
+import { Button } from "@/components/ui/button";
 
-function Footer() {
+export default function Footer() {
   return (
-    <div>Footer</div>
+    <div>
+      <div>
+        <p>Bandage</p>
+      </div>
+      <div>
+        <i></i>
+      </div>
+      <div>
+        <h4></h4>
+        <ul>
+          <li></li>
+        </ul>
+      </div>
+
+      <div>
+        <div>
+          <p></p>
+        </div>
+        <div>
+          <input type="email" />
+          <Button>Subscribe</Button>
+        </div>
+        <div>
+          <p></p>
+        </div>
+        <div>
+          <p></p>
+        </div>
+      </div>
+    </div>
   );
 }
-
-export default Footer;
