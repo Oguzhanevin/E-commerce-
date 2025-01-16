@@ -16,26 +16,28 @@ const categoryReducer = (state = initialState, action) => {
     case FETCH_CATEGORIES_REQUEST:
       return {
         ...state,
-        loading: true,
+        loading: true,  // Request başladığında loading true
+        error: null,    // Error'ı sıfırla, çünkü yeni bir istek başlatılıyor
       };
 
     case FETCH_CATEGORIES_SUCCESS:
       return {
         ...state,
-        loading: false,
-        categories: action.payload,  // Updating categories with the data from payload
-        error: null,  // Reset error when request is successful
+        loading: false,             // Request tamamlandığında loading false
+        categories: action.payload, // Veriler başarıyla geldi, categories güncelleniyor
+        error: null,                // Başarılı olduğunda error'ı sıfırlıyoruz
       };
 
     case FETCH_CATEGORIES_FAILURE:
       return {
         ...state,
-        loading: false,
-        error: action.payload,  // Store the error message from payload
+        loading: false,            // Hata durumunda loading false
+        error: action.payload,     // Hata mesajını action'dan al
+        categories: [],            // Eğer hata varsa, categories boş olmalı
       };
 
     default:
-      return state;
+      return state; // Bilinmeyen action türleri için mevcut state'i döndür
   }
 };
 
