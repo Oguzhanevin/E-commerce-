@@ -1,7 +1,8 @@
-import axiosInstance from '../utils/axiosInstance';  // axiosInstance doğru import edilmeli
+// clientActions.jsx
 import { ClientActions } from "../reducers/clientReducer";
+import axiosInstance from "../api/axiosInstance"; // axiosInstance doğru import edilmeli
 
-// User'ı Redux store'a set etmek için aksiyon
+// Kullanıcıyı Redux store'a set etmek için aksiyon
 export const setUser = (user) => ({
   type: ClientActions.SET_USER,
   payload: user,
@@ -25,14 +26,23 @@ export const setLanguage = (language) => ({
   payload: language,
 });
 
+// Kullanıcıyı temizlemek için aksiyon (clearUser)
+export const clearUser = () => ({
+  type: ClientActions.CLEAR_USER, // CLEAR_USER aksiyonu burada kullanılıyor
+});
+
 // Kullanıcı girişi için asenkron aksiyon (login işlemi)
 export const login = (email, password, rememberMe) => async (dispatch) => {
+  if (!email || !password) {
+    throw new Error("Email ve şifre gereklidir");
+  }
+
   try {
     // Login isteği yapılıyor
     const response = await axiosInstance.post("/login", { email, password });
 
     // Eğer işlem başarılıysa (status 200), kullanıcıyı store'a ekliyoruz
-    if (response.status === 200) {
+    if (response?.status === 200) {
       const user = response.data;
       dispatch(setUser(user));
 
@@ -46,10 +56,19 @@ export const login = (email, password, rememberMe) => async (dispatch) => {
 
       // Kullanıcıyı geri döndürüyoruz
       return user;
+    } else {
+      // Başarısız login işlemi
+      throw new Error(
+        "Giriş işlemi başarısız oldu, lütfen bilgilerinizi kontrol edin"
+      );
     }
   } catch (error) {
-    // Hata durumunda hata mesajını fırlatıyoruz
-    console.error('Login error:', error.message);
-    throw new Error(error.message || 'An error occurred during login');
+    // Hata durumunda anlamlı bir mesaj döndürüyoruz
+    console.error("Login error:", error.message);
+    throw new Error(
+      error.response?.data?.message ||
+        error.message ||
+        "Bir hata oluştu, lütfen tekrar deneyin"
+    );
   }
 };

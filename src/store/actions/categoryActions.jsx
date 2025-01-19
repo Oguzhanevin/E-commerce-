@@ -1,3 +1,4 @@
+// categoryActions.js
 import { axiosInstance } from '../../store/api/axiosInstance';  
 
 // Aksiyon türlerini sabitler dosyasından yönetmek iyi bir uygulama olabilir
@@ -14,8 +15,8 @@ export const fetchCategories = () => {
       const response = await axiosInstance.get('/categories'); // API'den kategorileri çekiyoruz
       dispatch(fetchCategoriesSuccess(response.data)); // Kategori başarıyla alındığında
     } catch (error) {
-      // Hata durumunda, hata mesajını gönderiyoruz
-      dispatch(fetchCategoriesFailure(error.message || 'An error occurred while fetching categories.'));
+      console.error('Error fetching categories:', error); // Hata mesajını daha ayrıntılı yazdırın
+      dispatch(fetchCategoriesFailure(error.response ? error.response.data : error.message || 'An error occurred.'));
     }
   };
 };

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,7 +25,7 @@ const SecondHeader = () => {
     const [loading, setLoading] = useState(true);
     const user = useSelector(state => state.client.user);
     const categories = useSelector(state => state.categories.categories);
-    const cart = useSelector(state => state.cart.cart);
+    const cart = useSelector(state => state.cart ? state.cart.cart : []); // cart'ı güvenli şekilde alıyoruz
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -198,3 +197,4 @@ const MobileMenu = ({ categories, isShopDropDownOpen, toggleShopDropdown }) => (
 );
 
 export default SecondHeader;
+

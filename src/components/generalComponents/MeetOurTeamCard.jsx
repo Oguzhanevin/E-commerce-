@@ -22,6 +22,9 @@ function MeetOurTeamCard({ member }) {
 
 // Sosyal Medya İkonları Bileşeni
 const SocialIcons = ({ links }) => {
+    // links null veya undefined ise boş bir nesne ver
+    const validLinks = links || {};
+
     const icons = {
         facebook: "fa-brands fa-square-facebook text-facebookIconBlue",
         instagram: "fa-brands fa-instagram text-instagramIconRed",
@@ -30,7 +33,7 @@ const SocialIcons = ({ links }) => {
 
     return (
         <div className="flex pt-2 pb-4 text-2xl gap-3 items-center justify-center">
-            {Object.entries(links).map(([platform, url]) => (
+            {Object.entries(validLinks).map(([platform, url]) => (
                 <a
                     key={platform}
                     href={url}

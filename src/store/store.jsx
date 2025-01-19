@@ -1,7 +1,6 @@
-
 import { combineReducers, legacy_createStore as createStore } from "redux";
 import { applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";  // Doğru import şekli
 import logger from "redux-logger";
 
 // Reducers
@@ -14,7 +13,7 @@ import shoppingCartReducer from "./reducers/shoppingCartReducer";
 const reducers = combineReducers({
   client: clientReducer,
   product: productReducer,
-  shoppingCart: shoppingCartReducer,  // Using only one key for the shoppingCartReducer
+  shoppingCart: shoppingCartReducer,
   categories: categoryReducer,
 });
 

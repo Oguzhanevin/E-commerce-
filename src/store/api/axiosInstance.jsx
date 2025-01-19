@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Axios instance oluşturuluyor
 export const axiosInstance = axios.create({
   baseURL: "https://workintech-fe-ecommerce.onrender.com",
   headers: {
@@ -7,13 +8,16 @@ export const axiosInstance = axios.create({
   },
 });
 
+// İstek öncesi interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); // Token alınması
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // Bearer token ekleniyor
+    } else {
+      console.warn("No token found! Request will be unauthorized.");
     }
-    console.log("Request:", config);
+    console.log("Request config:", config);
     return config;
   },
   (error) => {
@@ -22,6 +26,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+// Yanıt sonrası interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
     console.log("Response:", response);
@@ -29,7 +34,15 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      console.error("Response error:", error.response);
+      // 401 Unauthorized hatasını yakalamak
+      if (error.response.status === 401) {
+        console.error("Unauthorized access - Token may have expired.");
+        // Burada kullanıcıyı log out edebilir veya login sayfasına yönlendirebilirsiniz.
+        localStorage.removeItem("token"); // Token'ı kaldır
+        window.location.href = "/login";  // Kullanıcıyı login sayfasına yönlendir
+      } else {
+        console.error("Response error:", error.response);
+      }
     } else if (error.request) {
       console.error("No response received:", error.request);
     } else {
@@ -39,7 +52,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-// Saved Cards'ı almak için
+// Kartları almak için
 export const fetchSavedCards = async () => {
   try {
     const response = await axiosInstance.get("/user/card");
@@ -94,4 +107,5 @@ export const createOrder = async (orderData) => {
   }
 };
 
-
+// Default export
+export default axiosInstance;
